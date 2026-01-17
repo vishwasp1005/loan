@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LoanShield - Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        /* --------------------------------------
+            PREMIUM ANIMATED BACKGROUND
+        ---------------------------------------*/
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;   /* IMPORTANT for footer support */
+
+            font-family: "Poppins", sans-serif;
+
+            background: linear-gradient(135deg, #f8f4ef, #f3ebe3, #f7f2e8);
+            background-size: 400% 400%;
+            animation: bgShift 15s ease infinite;
+        }
+
+        @keyframes bgShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+
+        /* --------------------------------------
+            LOGIN CARD
+        ---------------------------------------*/
+        .auth-card {
+            width: 390px;
+            padding: 40px;
+            border-radius: 22px;
+
+            background: rgba(255,255,255,0.70);
+            backdrop-filter: blur(18px);
+
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+
+            animation: fadeUp 0.7s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 40px; /* spacing from top */
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* soft glow */
+        .auth-card::after {
+            content: "";
+            position: absolute;
+            top: -25px;
+            right: -25px;
+            width: 190px;
+            height: 190px;
+            background: radial-gradient(circle,
+                      rgba(255,255,255,0.45),
+                      transparent 70%);
+            border-radius: 50%;
+            filter: blur(10px);
+        }
+
+
+        .auth-card h2 {
+            font-size: 32px;
+            margin-bottom: 25px;
+            font-weight: 700;
+            color: #6A4C36;
+            animation: glowText 3s ease-in-out infinite;
+        }
+
+        @keyframes glowText {
+            0%,100% { text-shadow: 0 0 0px rgba(199,162,124,0.25); }
+            50%     { text-shadow: 0 0 12px rgba(199,162,124,0.45); }
+        }
+
+
+        .auth-card label {
+            float: left;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4f433c;
+            margin-top: 14px;
+        }
+
+        .auth-card input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+
+            border: 1px solid #d4c8bb;
+            background: #faf7f2;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: 0.25s;
+        }
+
+        .auth-card input:focus {
+            border-color: #c7a27c;
+            box-shadow: 0 0 0 4px rgba(199,162,124,0.25);
+        }
+
+        .auth-card button {
+            margin-top: 28px;
+            width: 100%;
+            padding: 13px;
+
+            font-size: 17px;
+            border: none;
+            border-radius: 12px;
+
+            background: #C7A27C;
+            color: white;
+            font-weight: 600;
+
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .auth-card button:hover {
+            background: #b48b65;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+
+        .error {
+            padding: 12px;
+            background: #ffd4d4;
+            color: #b92828;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0%,100% { transform: translateX(0); }
+            25%  { transform: translateX(-4px); }
+            50%  { transform: translateX(4px); }
+            75%  { transform: translateX(-4px); }
+        }
+
+        .default-info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6A4C36;
+        }
+
+        /* spacing for footer on mobile */
+        @media(max-width: 450px){
+            .auth-card {
+                width: 88%;
+                padding: 32px;
+                margin-top: 60px;
+            }
+
+            .auth-card h2 {
+                font-size: 26px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="auth-card">
+    <h2>Welcome</h2>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Enter username" required>
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p class="default-info">Default Login: <b>admin / 12345</b></p>
+</div>
+
+<!-- ⭐ FOOTER INCLUDED HERE ⭐ -->
+{% include 'footer.html' %}
+
+</body>
+</html>

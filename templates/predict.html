@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LoanShield - Predict Risk</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        /* -----------------------------------------
+           GLOBAL PAGE BACKGROUND 
+        ------------------------------------------ */
+        body {
+            background: linear-gradient(135deg, #f8f4ef, #f6ece3, #fbf7f2);
+            background-size: 400% 400%;
+            animation: bgShift 16s ease infinite;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+
+        /* -----------------------------------------
+           FLOATING INPUTS 
+        ------------------------------------------ */
+        .input-group {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #d8cfc5;
+            background: #faf7f2;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s ease;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 50%;
+            left: 14px;
+            transform: translateY(-50%);
+            background: white;
+            padding: 0 6px;
+            color: #7a6f69;
+            font-size: 14px;
+            pointer-events: none;
+            transition: 0.3s ease;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: -8px;
+            left: 12px;
+            font-size: 12px;
+            color: #b68258;
+        }
+
+        .input-group select:focus + label,
+        .input-group select.filled + label {
+            top: -8px;
+            left: 12px;
+            font-size: 12px;
+            color: #b68258;
+        }
+
+
+        /* -----------------------------------------
+           FORM GRID
+        ------------------------------------------ */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        @media (max-width: 760px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+
+
+        /* -----------------------------------------
+           PREDICT CONTAINER 
+        ------------------------------------------ */
+        .predict-container {
+            display: flex;
+            align-items: center;
+            gap: 55px;
+            margin-top: 40px;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+
+        /* -----------------------------------------
+           FORM CARD 
+        ------------------------------------------ */
+        .form-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(18px);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            animation: slideIn 0.8s ease;
+        }
+
+        .btn-primary {
+            transition: 0.25s ease;
+            width: 100%;
+            text-align: center;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 12px 22px rgba(183,130,88,0.35);
+            transform: translateY(-2px);
+        }
+
+
+        /* -----------------------------------------
+           ILLUSTRATION 
+        ------------------------------------------ */
+        .predict-illustration img {
+            width: 480px;
+            max-width: 100%;
+            animation: floatImg 4.5s ease-in-out infinite;
+            filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
+        }
+
+        @keyframes floatImg {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+
+        /* -----------------------------------------
+           MOBILE FIXES (MAIN FIX ADDED)
+        ------------------------------------------ */
+        @media (max-width: 950px) {
+            .predict-container {
+                flex-direction: column-reverse !important;
+                text-align: center;
+                gap: 25px;
+            }
+            .predict-illustration img {
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .page-title {
+                font-size: 26px;
+                text-align: center;
+            }
+
+            .form-card {
+                padding: 28px;
+            }
+
+            .predict-container {
+                padding-bottom: 25px;
+            }
+
+            /* Fix bottom spacing so footer doesn't overlap */
+            .page-container {
+                padding-bottom: 90px !important;
+            }
+        }
+
+
+        /* -----------------------------------------
+           LOADER 
+        ------------------------------------------ */
+        .loader-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(6px);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader {
+            width: 70px;
+            height: 70px;
+            border: 6px solid #d3c4b4;
+            border-top-color: #b68258;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+    </style>
+</head>
+
+<body class="fade-in">
+
+    {% include 'navbar.html' %}
+
+    <!-- LOADING OVERLAY -->
+    <div class="loader-overlay" id="loadingScreen">
+        <div class="loader"></div>
+    </div>
+
+    <div class="page-container fade-in">
+
+        <h1 class="page-title">Loan Risk Prediction</h1>
+
+        <div class="predict-container">
+
+            <!-- LEFT: FORM -->
+            <div class="form-card" style="flex: 1;">
+
+                <form action="/predict" method="POST" onsubmit="showLoader()">
+
+                    <div class="form-grid">
+
+                        <div class="input-group">
+                            <input type="number" name="age" required placeholder=" ">
+                            <label>Age</label>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="number" name="income" required placeholder=" ">
+                            <label>Income</label>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="number" name="loan_amount" required placeholder=" ">
+                            <label>Loan Amount</label>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="number" name="credit_score" required placeholder=" ">
+                            <label>Credit Score</label>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="number" step="0.01" name="dti_ratio" required placeholder=" ">
+                            <label>DTI Ratio</label>
+                        </div>
+
+                        <div class="input-group">
+                            <select name="education" required>
+                                <option value="" disabled selected hidden></option>
+                                <option>High School</option>
+                                <option>Bachelor</option>
+                                <option>Master</option>
+                                <option>PhD</option>
+                            </select>
+                            <label>Education</label>
+                        </div>
+
+                        <div class="input-group">
+                            <select name="employment" required>
+                                <option value="" disabled selected hidden></option>
+                                <option>Full-time</option>
+                                <option>Part-time</option>
+                                <option>Self-employed</option>
+                                <option>Unemployed</option>
+                            </select>
+                            <label>Employment</label>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn-primary full-btn" style="margin-top: 18px;">
+                        Predict →
+                    </button>
+
+                </form>
+            </div>
+
+            <!-- RIGHT IMAGE -->
+            <div class="predict-illustration" style="flex: 1; text-align:center;">
+                <img src="{{ url_for('static', filename='img/predict.png') }}" alt="Predict Illustration">
+            </div>
+
+        </div>
+    </div>
+
+<!-- FLOAT LABEL FIX -->
+<script>
+document.querySelectorAll('.input-group select').forEach(select => {
+    select.addEventListener('change', function () {
+        if (this.value !== "") {
+            this.classList.add("filled");
+        } else {
+            this.classList.remove("filled");
+        }
+    });
+});
+</script>
+
+<script>
+function showLoader() {
+    document.getElementById("loadingScreen").style.display = "flex";
+}
+</script>
+
+{% include 'footer.html' %}
+
+</body>
+</html>
