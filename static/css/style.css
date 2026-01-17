@@ -481,4 +481,52 @@ body::after {
 .page-container {
     min-height: calc(100vh - 230px);
 }
+/* FORCE PAGES TO ALWAYS FILL SCREEN HEIGHT */
+.page-container {
+    min-height: calc(100vh - 220px); 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* HERO MOBILE FIX */
+@media(max-width: 768px) {
+
+    .hero {
+        flex-direction: column-reverse !important;
+        text-align: center;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+        gap: 10px !important;
+    }
+
+    .hero-text {
+        width: 100% !important;
+    }
+
+    .hero-image img {
+        width: 260px !important;
+        max-width: 100%;
+        display: block;
+        margin: 0 auto;
+        transform: translateY(-10px);
+    }
+
+    .stats {
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 10px !important;
+    }
+
+    .stat-box h2 {
+        font-size: 18px !important;
+    }
+
+    .stat-box p {
+        font-size: 13px !important;
+    }
+}
+
 
