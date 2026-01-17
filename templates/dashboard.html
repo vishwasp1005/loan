@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LoanShield - Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=11">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=12">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -35,7 +35,7 @@
         }
 
         /* -----------------------------------------
-           STAT CARDS TOP SECTION
+           ENHANCED STAT CARDS
         ------------------------------------------ */
         .stats-container {
             display: flex;
@@ -47,45 +47,75 @@
         .stat-card {
             flex: 1;
             min-width: 230px;
-            background: rgba(255,255,255,0.78);
-            backdrop-filter: blur(16px);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 28px 25px;
             text-align: center;
-            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
-            transition: 0.3s ease;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
         }
 
         .stat-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 18px 38px rgba(0,0,0,0.17);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.25);
         }
 
         .stat-card .icon {
             font-size: 38px;
             margin-bottom: 10px;
             animation: floatIcon 3s ease-in-out infinite;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
         }
 
         @keyframes floatIcon {
             0%,100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+            50% { transform: translateY(-8px); }
         }
 
         .stat-card h2 {
             font-size: 36px;
             margin: 10px 0 5px;
             color: #3A2F2F;
+            font-weight: 700;
         }
 
         .stat-card p {
             font-size: 15px;
             color: #5A4A3B;
             margin: 0;
+            font-weight: 500;
+        }
+
+        .stat-card.green { 
+            background: linear-gradient(135deg, rgba(212,248,212,0.9), rgba(184,230,184,0.9));
+        }
+
+        .stat-card.red { 
+            background: linear-gradient(135deg, rgba(255,212,212,0.9), rgba(255,187,187,0.9));
         }
 
         /* -----------------------------------------
-           CHART SECTION
+           ENHANCED CHARTS
         ------------------------------------------ */
         .chart-container {
             display: grid;
@@ -95,12 +125,35 @@
         }
 
         .chart-box {
-            background: rgba(255,255,255,0.78);
-            backdrop-filter: blur(14px);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
             padding: 25px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
             animation: fadeIn 1s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #C7A27C, transparent);
+            transition: 0.6s;
+        }
+
+        .chart-box:hover::before {
+            left: 100%;
+        }
+
+        .chart-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.18);
         }
 
         .chart-box h3 {
@@ -108,6 +161,7 @@
             margin-bottom: 18px;
             color: #4d3e3e;
             font-size: 20px;
+            font-weight: 600;
         }
 
         canvas {
@@ -115,7 +169,7 @@
         }
 
         /* -----------------------------------------
-           TABLE WRAPPER (Mobile scroll)
+           TABLE WRAPPER
         ------------------------------------------ */
         .table-wrapper {
             margin-top: 40px;
@@ -132,27 +186,43 @@
         }
 
         .history-table th {
-            background: #e7dfd6;
+            background: linear-gradient(135deg, #E8D4BC, #D4C2A8);
             padding: 14px;
             text-align: left;
             font-weight: 600;
             border-radius: 12px 12px 0 0;
+            color: #523A28;
         }
 
         .history-table td {
-            background: rgba(255,255,255,0.75);
+            background: rgba(255,255,255,0.85);
             backdrop-filter: blur(12px);
             padding: 14px;
             border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .history-table tr {
+            transition: all 0.3s ease;
         }
 
         .history-table tr:hover td {
-            background: #f0e9e1;
-            transition: 0.3s ease;
+            background: linear-gradient(135deg, #FFF5EB, #FFEFDB);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .green { color: #1b7a31; font-weight: 700; }
-        .red   { color: #b22e2e; font-weight: 700; }
+        .green { 
+            color: #1b7a31; 
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(27,122,49,0.2);
+        }
+        
+        .red { 
+            color: #b22e2e; 
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(178,46,46,0.2);
+        }
 
 
         /* -----------------------------------------
@@ -249,7 +319,6 @@
             .table-wrapper {
                 margin-top: 20px !important;
                 padding-bottom: 15px !important;
-                /* Add shadow to indicate scrollable */
                 box-shadow: inset -10px 0 10px -10px rgba(0,0,0,0.1);
             }
 
@@ -269,26 +338,26 @@
 
     <div class="page-container dashboard-wrapper">
 
-        <h1 class="page-title">Dashboard Overview</h1>
+        <h1 class="page-title scroll-reveal">Dashboard Overview</h1>
 
         <!-- TOP STAT CARDS -->
         <div class="stats-container">
 
-            <div class="stat-card green fade-in">
+            <div class="stat-card green scroll-reveal stagger-child">
                 <div class="icon">✔️</div>
-                <h2>{{ safe }}</h2>
+                <h2 data-count="{{ safe }}">0</h2>
                 <p>Safe Loans</p>
             </div>
 
-            <div class="stat-card red fade-in">
+            <div class="stat-card red scroll-reveal stagger-child">
                 <div class="icon">⚠️</div>
-                <h2>{{ danger }}</h2>
+                <h2 data-count="{{ danger }}">0</h2>
                 <p>Default Risks</p>
             </div>
 
-            <div class="stat-card fade-in">
+            <div class="stat-card scroll-reveal stagger-child">
                 <div class="icon">📊</div>
-                <h2>{{ total }}</h2>
+                <h2 data-count="{{ total }}">0</h2>
                 <p>Total Predictions</p>
             </div>
 
@@ -297,12 +366,12 @@
         <!-- CHARTS -->
         <div class="chart-container">
 
-            <div class="chart-box">
+            <div class="chart-box scroll-reveal-left">
                 <h3>Loan Status Distribution</h3>
                 <canvas id="pieChart"></canvas>
             </div>
 
-            <div class="chart-box">
+            <div class="chart-box scroll-reveal-right">
                 <h3>Safe vs Default Trend</h3>
                 <canvas id="barChart"></canvas>
             </div>
@@ -310,9 +379,9 @@
         </div>
 
         <!-- TABLE SECTION -->
-        <h2 style="margin-top: 55px; margin-bottom: 10px;">Recent Predictions</h2>
+        <h2 class="scroll-reveal" style="margin-top: 55px; margin-bottom: 10px;">Recent Predictions</h2>
 
-        <div class="table-wrapper">
+        <div class="table-wrapper scroll-reveal">
             <table class="history-table">
                 <tr>
                     <th>Age</th>
@@ -356,12 +425,30 @@
                 labels: ['Safe Loans', 'Defaults'],
                 datasets: [{
                     data: [safe, danger],
-                    backgroundColor: ['#50c86d', '#ff6b6b']
+                    backgroundColor: ['#50c86d', '#ff6b6b'],
+                    borderWidth: 3,
+                    borderColor: '#fff'
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            font: {
+                                size: 13,
+                                family: 'Poppins'
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
             }
         });
 
@@ -373,17 +460,44 @@
                 datasets: [{
                     label: 'Loan Predictions',
                     data: [safe, danger],
-                    backgroundColor: ['#52d06d', '#ff7878']
+                    backgroundColor: ['#52d06d', '#ff7878'],
+                    borderRadius: 10,
+                    borderWidth: 0
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1500,
+                    easing: 'easeInOutQuart'
+                }
             }
         });
     </script>
 
     {% include 'footer.html' %}
+
+    <!-- Professional Animations Script -->
+    <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
 
 </body>
 </html>
