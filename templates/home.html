@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LoanShield - Smart Loan Default Prediction</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=5">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=11">
 
     <style>
         /* ----------------------------
@@ -23,16 +23,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        .hero {
-            padding: 40px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 60px;
-        }
-
         .hero-text {
-            flex: 1;
             animation: fadeLeft 0.9s ease;
         }
 
@@ -43,7 +34,6 @@
 
         .hero-text h1 {
             animation: titleGlow 3s ease-in-out infinite;
-            line-height: 1.15;
         }
 
         @keyframes titleGlow {
@@ -53,8 +43,6 @@
         }
 
         .hero-image img {
-            width: 480px;
-            max-width: 100%;
             filter: drop-shadow(0 12px 25px rgba(0,0,0,0.18));
             animation: floatImg 4.4s ease-in-out infinite;
         }
@@ -67,74 +55,109 @@
         .stat-box {
             transition: 0.3s ease;
         }
+        
         .stat-box:hover {
             transform: translateY(-6px);
             box-shadow: 0 10px 20px rgba(183,130,88,0.2);
         }
 
         /* ----------------------------
-           MOBILE RESPONSIVE FIX (FINAL)
+           MOBILE RESPONSIVE FIX
         -----------------------------*/
 
         @media(max-width: 950px){
             .hero {
-                flex-direction: column-reverse;
-                text-align: center;
-                gap: 28px;
-                padding-top: 10px;
+                flex-direction: column-reverse !important;
+                text-align: center !important;
+                gap: 30px !important;
+                padding: 20px 0 !important;
+            }
+
+            .hero-text {
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+
+            .hero-text h1 {
+                font-size: 42px !important;
+            }
+
+            .hero-image {
+                width: 100% !important;
             }
 
             .hero-image img {
-                width: 300px !important;
-                margin-top: -10px;
+                max-width: 350px !important;
+                width: 100% !important;
+                margin: 0 auto !important;
+            }
+
+            .hero-buttons {
+                justify-content: center !important;
             }
 
             .stats {
-                justify-content: center;
-                gap: 18px;
+                justify-content: center !important;
             }
         }
 
         @media(max-width: 600px){
-
             .hero {
-                gap: 18px !important;
-                padding-bottom: 35px;
+                gap: 15px !important;
+                padding: 10px 0 30px !important;
             }
 
             .hero-text h1 {
-                font-size: 30px;
-                margin-bottom: 10px;
+                font-size: 32px !important;
+                margin: 15px 0 !important;
+                line-height: 1.2 !important;
             }
 
             .hero-text p {
-                font-size: 15px;
+                font-size: 15px !important;
+                margin: 15px 0 !important;
             }
 
             .badge {
-                font-size: 12px;
-                padding: 6px 12px;
+                font-size: 12px !important;
+                padding: 6px 14px !important;
+            }
+
+            .hero-image img {
+                max-width: 280px !important;
             }
 
             .hero-buttons {
-                margin-top: 10px;
+                flex-direction: column !important;
+                width: 100% !important;
+                gap: 10px !important;
             }
 
             .hero-buttons .btn-primary,
             .hero-buttons .btn-secondary {
-                display: block;
-                width: 100%;
-                margin-bottom: 10px;
-                text-align: center;
+                width: 100% !important;
+                text-align: center !important;
+                padding: 12px 20px !important;
+                display: block !important;
+            }
+
+            .stats {
+                gap: 15px !important;
+                margin-top: 20px !important;
             }
 
             .stat-box {
-                padding: 8px;
-                width: 90px;
+                padding: 10px 15px !important;
+                min-width: 90px !important;
             }
 
-            .stat-box h2 { font-size: 18px; }
-            .stat-box p { font-size: 12px; }
+            .stat-box h2 { 
+                font-size: 20px !important; 
+            }
+            
+            .stat-box p { 
+                font-size: 12px !important; 
+            }
         }
 
     </style>
