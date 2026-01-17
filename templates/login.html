@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LoanShield - Login</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=5">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=11">
 
     <style>
 
@@ -13,11 +13,11 @@
         ---------------------------------------*/
         body {
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;   /* IMPORTANT for footer support */
+            flex-direction: column;
 
             font-family: "Poppins", sans-serif;
 
@@ -38,6 +38,7 @@
         ---------------------------------------*/
         .auth-card {
             width: 390px;
+            max-width: 90%;
             padding: 40px;
             border-radius: 22px;
 
@@ -50,7 +51,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            margin-top: 40px; /* spacing from top */
+            margin: 40px 20px;
         }
 
         @keyframes fadeUp {
@@ -71,8 +72,13 @@
                       transparent 70%);
             border-radius: 50%;
             filter: blur(10px);
+            z-index: 0;
         }
 
+        .auth-card > * {
+            position: relative;
+            z-index: 1;
+        }
 
         .auth-card h2 {
             font-size: 32px;
@@ -86,7 +92,6 @@
             0%,100% { text-shadow: 0 0 0px rgba(199,162,124,0.25); }
             50%     { text-shadow: 0 0 12px rgba(199,162,124,0.45); }
         }
-
 
         .auth-card label {
             float: left;
@@ -106,6 +111,9 @@
             border-radius: 10px;
             font-size: 15px;
             transition: 0.25s;
+            font-family: "Poppins", sans-serif;
+            outline: none;
+            box-sizing: border-box;
         }
 
         .auth-card input:focus {
@@ -128,12 +136,17 @@
 
             cursor: pointer;
             transition: 0.3s ease;
+            font-family: "Poppins", sans-serif;
         }
 
         .auth-card button:hover {
             background: #b48b65;
             transform: translateY(-3px);
             box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+
+        .auth-card button:active {
+            transform: translateY(-1px);
         }
 
         .error {
@@ -157,18 +170,124 @@
             margin-top: 20px;
             font-size: 14px;
             color: #6A4C36;
+            line-height: 1.5;
         }
 
-        /* spacing for footer on mobile */
-        @media(max-width: 450px){
+        .default-info b {
+            color: #B68258;
+        }
+
+        /* --------------------------------------
+           MOBILE FIXES - TABLET
+        ---------------------------------------*/
+        @media(max-width: 768px){
             .auth-card {
-                width: 88%;
-                padding: 32px;
-                margin-top: 60px;
+                width: 85% !important;
+                max-width: 420px !important;
+                padding: 35px !important;
+                margin: 30px 20px !important;
             }
 
             .auth-card h2 {
-                font-size: 26px;
+                font-size: 28px !important;
+            }
+
+            .auth-card input {
+                padding: 11px !important;
+                font-size: 14px !important;
+            }
+
+            .auth-card button {
+                font-size: 16px !important;
+                padding: 12px !important;
+            }
+
+            .default-info {
+                font-size: 13px !important;
+            }
+        }
+
+        /* --------------------------------------
+           MOBILE FIXES - PHONE
+        ---------------------------------------*/
+        @media(max-width: 600px){
+            body {
+                min-height: 100vh !important;
+                padding: 20px 0 !important;
+            }
+
+            .auth-card {
+                width: 90% !important;
+                max-width: 380px !important;
+                padding: 32px 25px !important;
+                margin: 30px 15px !important;
+                border-radius: 18px !important;
+            }
+
+            .auth-card h2 {
+                font-size: 26px !important;
+                margin-bottom: 20px !important;
+            }
+
+            .auth-card label {
+                font-size: 13px !important;
+                margin-top: 12px !important;
+            }
+
+            .auth-card input {
+                padding: 11px !important;
+                font-size: 14px !important;
+                border-radius: 8px !important;
+            }
+
+            .auth-card button {
+                margin-top: 22px !important;
+                padding: 12px !important;
+                font-size: 15px !important;
+                border-radius: 10px !important;
+            }
+
+            .error {
+                padding: 10px !important;
+                font-size: 13px !important;
+            }
+
+            .default-info {
+                margin-top: 18px !important;
+                font-size: 13px !important;
+            }
+        }
+
+        /* --------------------------------------
+           MOBILE FIXES - SMALL PHONES
+        ---------------------------------------*/
+        @media(max-width: 400px){
+            .auth-card {
+                width: 92% !important;
+                padding: 28px 20px !important;
+                margin: 25px 10px !important;
+            }
+
+            .auth-card h2 {
+                font-size: 24px !important;
+            }
+
+            .auth-card label {
+                font-size: 12px !important;
+            }
+
+            .auth-card input {
+                padding: 10px !important;
+                font-size: 13px !important;
+            }
+
+            .auth-card button {
+                padding: 11px !important;
+                font-size: 14px !important;
+            }
+
+            .default-info {
+                font-size: 12px !important;
             }
         }
 
