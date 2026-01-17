@@ -542,8 +542,15 @@ body::after {
     box-shadow: 0 20px 50px rgba(0,0,0,0.2);
 }
 
+/* Remove conflicting styles - predict.html has its own input styling */
 .form-card input,
 .form-card select {
+    box-sizing: border-box;
+}
+
+/* Only apply these styles to forms WITHOUT input-group class */
+form:not(:has(.input-group)) .form-card input,
+form:not(:has(.input-group)) .form-card select {
     width: 100%;
     padding: 14px;
     margin-bottom: 18px;
@@ -554,8 +561,8 @@ body::after {
     transition: all 0.3s ease;
 }
 
-.form-card input:focus,
-.form-card select:focus {
+form:not(:has(.input-group)) .form-card input:focus,
+form:not(:has(.input-group)) .form-card select:focus {
     border-color: #C7A27C;
     box-shadow: 0 0 0 4px rgba(199,162,124,0.15);
     transform: translateY(-2px);
