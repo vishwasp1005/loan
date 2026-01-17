@@ -1,6 +1,6 @@
 flask
-numpy<2.0
+numpy
 pandas
-scikit-learn==1.4.2
+scikit-learn
 joblib
 gunicorn
