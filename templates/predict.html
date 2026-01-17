@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LoanShield - Predict Risk</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=5">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=11">
 
     <style>
 
@@ -84,7 +84,9 @@
         }
 
         @media (max-width: 760px) {
-            .form-grid { grid-template-columns: 1fr; }
+            .form-grid { 
+                grid-template-columns: 1fr !important; 
+            }
         }
 
 
@@ -144,37 +146,74 @@
 
 
         /* -----------------------------------------
-           MOBILE FIXES (MAIN FIX ADDED)
+           MOBILE FIXES - TABLET
         ------------------------------------------ */
         @media (max-width: 950px) {
             .predict-container {
                 flex-direction: column-reverse !important;
-                text-align: center;
-                gap: 25px;
-            }
-            .predict-illustration img {
-                width: 300px;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .page-title {
-                font-size: 26px;
-                text-align: center;
+                text-align: center !important;
+                gap: 30px !important;
             }
 
             .form-card {
-                padding: 28px;
+                width: 100% !important;
+                max-width: 550px !important;
+                margin: 0 auto !important;
+            }
+
+            .predict-illustration {
+                width: 100% !important;
+                text-align: center !important;
+            }
+
+            .predict-illustration img {
+                max-width: 350px !important;
+                width: 100% !important;
+            }
+        }
+
+        /* -----------------------------------------
+           MOBILE FIXES - PHONE
+        ------------------------------------------ */
+        @media (max-width: 600px) {
+
+            .page-container {
+                padding-bottom: 40px !important;
+            }
+
+            .page-title {
+                font-size: 28px !important;
+                text-align: center !important;
+                margin-bottom: 20px !important;
             }
 
             .predict-container {
-                padding-bottom: 25px;
+                gap: 20px !important;
+                margin-top: 20px !important;
             }
 
-            /* Fix bottom spacing so footer doesn't overlap */
-            .page-container {
-                padding-bottom: 90px !important;
+            .form-card {
+                padding: 25px !important;
+                max-width: 100% !important;
+            }
+
+            .predict-illustration img {
+                max-width: 280px !important;
+            }
+
+            .input-group input,
+            .input-group select {
+                padding: 12px !important;
+                font-size: 14px !important;
+            }
+
+            .input-group label {
+                font-size: 13px !important;
+            }
+
+            .btn-primary {
+                padding: 12px 20px !important;
+                font-size: 15px !important;
             }
         }
 
