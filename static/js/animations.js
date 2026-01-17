@@ -57,15 +57,24 @@ window.addEventListener('scroll', () => {
 });
 
 // ==========================================
-// 3. MOBILE HAMBURGER MENU
+// 3. MOBILE HAMBURGER MENU (ENHANCED)
 // ==========================================
-const hamburger = document.querySelector('.hamburger');
-const navLinks = document.querySelector('.nav-links');
+function initHamburgerMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
 
-if (hamburger) {
-    hamburger.addEventListener('click', () => {
+    if (!hamburger || !navLinks) {
+        console.log('⚠️ Hamburger or nav-links not found');
+        return;
+    }
+
+    console.log('✅ Hamburger menu initialized');
+
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
         hamburger.classList.toggle('open');
         navLinks.classList.toggle('active');
+        console.log('Hamburger clicked:', hamburger.classList.contains('open'));
     });
     
     // Close menu when clicking outside
@@ -86,9 +95,20 @@ if (hamburger) {
     });
 }
 
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', initHamburgerMenu);
+
+// Fallback if DOMContentLoaded already fired
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    initHamburgerMenu();
+}
+
 // ==========================================
-// 4. CARD TILT EFFECT (3D)
+// 4. CARD TILT EFFECT (DISABLED FOR STABILITY)
 // ==========================================
+// 3D tilt effect disabled - cards stay flat
+// Uncomment below to re-enable if needed
+/*
 const cards = document.querySelectorAll('.stat-card, .chart-box, .form-card');
 
 cards.forEach(card => {
@@ -110,6 +130,7 @@ cards.forEach(card => {
         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
     });
 });
+*/
 
 // ==========================================
 // 5. SMOOTH NUMBER COUNTER ANIMATION
@@ -202,8 +223,11 @@ style.textContent = `
 document.head.appendChild(style);
 
 // ==========================================
-// 7. PARALLAX EFFECT ON IMAGES
+// 7. PARALLAX EFFECT ON IMAGES (DISABLED)
 // ==========================================
+// Parallax effect disabled to prevent unwanted movement
+// Uncomment below to re-enable if needed
+/*
 window.addEventListener('scroll', () => {
     const parallaxElements = document.querySelectorAll('.hero-image img, .predict-illustration img');
     const scrolled = window.pageYOffset;
@@ -213,6 +237,7 @@ window.addEventListener('scroll', () => {
         el.style.transform = `translateY(${scrolled * speed}px)`;
     });
 });
+*/
 
 // ==========================================
 // 8. FORM INPUT ANIMATIONS
