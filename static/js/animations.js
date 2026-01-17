@@ -240,6 +240,7 @@ inputs.forEach(input => {
 // ==========================================
 window.addEventListener('load', () => {
     document.body.classList.add('loaded');
+     document.body.style.opacity = '1'; 
     
     // Animate elements in sequence
     const heroElements = document.querySelectorAll('.hero-text > *, .hero-image');
@@ -383,3 +384,4 @@ cursorStyle.textContent = `
 document.head.appendChild(cursorStyle);
 
 console.log('🔥 LoanShield Professional Animations Loaded!');
+
