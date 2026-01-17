@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LoanShield - Result</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=11">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=12">
 
     <style>
 
@@ -35,36 +35,66 @@
         }
 
         /* --------------------------------------
-           RESULT CARD 
+           ENHANCED RESULT CARD 
         --------------------------------------- */
         .result-card {
             padding: 50px;
             border-radius: 22px;
-            background: rgba(255,255,255,0.78);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
             position: relative;
             overflow: hidden;
-            animation: popIn 0.55s ease;
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s ease;
+        }
+
+        .result-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 35px 80px rgba(0,0,0,0.25);
         }
 
         @keyframes popIn {
-            from { transform: scale(0.88); opacity: 0; }
+            from { transform: scale(0.85); opacity: 0; }
             to   { transform: scale(1); opacity: 1; }
         }
 
-        /* Corner glow */
-        .result-card::after {
+        /* Multiple animated glows */
+        .result-card::after,
+        .result-card::before {
             content: "";
             position: absolute;
-            top: -30px;
-            right: -25px;
+            border-radius: 50%;
+            filter: blur(25px);
+            z-index: 0;
+        }
+
+        .result-card::after {
+            top: -40px;
+            right: -40px;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255,255,255,0.6), transparent 70%);
+            animation: glow1 4s ease-in-out infinite;
+        }
+
+        .result-card::before {
+            bottom: -40px;
+            left: -40px;
             width: 200px;
             height: 200px;
-            background: radial-gradient(circle, rgba(255,255,255,0.55), transparent 70%);
-            filter: blur(12px);
-            border-radius: 50%;
-            z-index: 0;
+            background: radial-gradient(circle, rgba(199,162,124,0.3), transparent 70%);
+            animation: glow2 5s ease-in-out infinite;
+        }
+
+        @keyframes glow1 {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        @keyframes glow2 {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.15); }
         }
 
         .result-card > * {
@@ -72,34 +102,42 @@
             z-index: 1;
         }
 
-        /* Safe / Danger themes */
+        /* Safe / Danger themes with gradients */
         .result-safe {
-            border-left: 14px solid #2E7D32;
-            background: rgba(212,248,212,0.78);
+            border-left: 16px solid #2E7D32;
+            background: linear-gradient(135deg, rgba(212,248,212,0.9), rgba(184,230,184,0.9));
             color: #1b6f26;
         }
+
         .result-danger {
-            border-left: 14px solid #D32F2F;
-            background: rgba(255,212,212,0.78);
+            border-left: 16px solid #D32F2F;
+            background: linear-gradient(135deg, rgba(255,212,212,0.9), rgba(255,187,187,0.9));
             color: #B21C1C;
         }
 
-        /* Emoji */
+        /* Animated Emoji */
         .emoji {
             font-size: 95px;
             margin-bottom: 15px;
-            animation: floatEmoji 2.4s ease-in-out infinite;
+            animation: floatEmoji 2.5s ease-in-out infinite, pulse 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
         }
 
         @keyframes floatEmoji {
-            0%, 100% { transform: translateY(0); }
-            50%      { transform: translateY(-12px); }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50%      { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.05); }
         }
 
         .result-card h1 {
             font-size: 28px;
             margin: 15px 0;
             line-height: 1.3;
+            font-weight: 700;
         }
 
         .result-card p {
@@ -109,7 +147,7 @@
         }
 
         /* --------------------------------------
-           BUTTONS
+           ENHANCED BUTTONS
         --------------------------------------- */
         .action-buttons {
             margin-top: 32px;
@@ -124,18 +162,44 @@
             border-radius: 10px;
             font-weight: 600;
             text-decoration: none;
-            transition: 0.25s ease;
+            transition: all 0.3s ease;
             display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn > span {
+            position: relative;
+            z-index: 1;
         }
 
         .btn-primary {
-            background: #C7A27C;
+            background: linear-gradient(135deg, #C7A27C, #B68258);
             color: white;
-            box-shadow: 0 4px 12px rgba(183,130,88,0.35);
+            box-shadow: 0 8px 20px rgba(183,130,88,0.4);
         }
+
         .btn-primary:hover {
-            background: #b48b65;
             transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(183,130,88,0.5);
         }
 
         .btn-secondary {
@@ -143,10 +207,12 @@
             color: #C7A27C;
             background: transparent;
         }
+
         .btn-secondary:hover {
-            background: #C7A27C;
+            background: linear-gradient(135deg, #C7A27C, #B68258);
             color: white;
             transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(183,130,88,0.4);
         }
 
         /* --------------------------------------
@@ -264,7 +330,7 @@
 
     {% include 'navbar.html' %}
 
-    <div class="result-container">
+    <div class="result-container scroll-reveal">
 
         {% if prediction == 0 %}
         <div class="result-card result-safe">
@@ -282,13 +348,20 @@
         {% endif %}
 
         <div class="action-buttons">
-            <a href="/predict" class="btn btn-primary">Predict Again</a>
-            <a href="/dashboard" class="btn btn-secondary">View Dashboard</a>
+            <a href="/predict" class="btn btn-primary scroll-reveal stagger-child">
+                <span>Predict Again</span>
+            </a>
+            <a href="/dashboard" class="btn btn-secondary scroll-reveal stagger-child">
+                <span>View Dashboard</span>
+            </a>
         </div>
 
     </div>
 
     {% include 'footer.html' %}
+
+    <!-- Professional Animations Script -->
+    <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
 
 </body>
 </html>
