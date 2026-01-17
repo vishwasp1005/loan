@@ -130,6 +130,16 @@ def signup():
         username = request.form["username"]
         password = request.form["password"]
 
+        # Validate inputs
+        if not username or not password:
+            return render_template("signup.html", error="Username and password are required!")
+        
+        if len(username) < 3:
+            return render_template("signup.html", error="Username must be at least 3 characters!")
+        
+        if len(password) < 5:
+            return render_template("signup.html", error="Password must be at least 5 characters!")
+
         try:
             conn = sqlite3.connect(DB_NAME)
             c = conn.cursor()
@@ -140,11 +150,14 @@ def signup():
             conn.close()
             return redirect(url_for("login"))
 
-        except:
+        except sqlite3.IntegrityError:
+            # This specifically catches duplicate username errors
             return render_template("signup.html", error="Username already exists!")
+        except Exception as e:
+            # Catch any other errors
+            return render_template("signup.html", error=f"An error occurred: {str(e)}")
 
     return render_template("signup.html")
-
 
 
 @app.route("/logout")
