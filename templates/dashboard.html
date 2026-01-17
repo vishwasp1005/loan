@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LoanShield - Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=5">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=11">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -31,7 +31,7 @@
         ------------------------------------------ */
         .dashboard-wrapper {
             animation: fadeIn 0.9s ease;
-            padding-bottom: 120px; /* FOOTER SPACE FIX */
+            padding-bottom: 60px;
         }
 
         /* -----------------------------------------
@@ -72,6 +72,18 @@
             50% { transform: translateY(-6px); }
         }
 
+        .stat-card h2 {
+            font-size: 36px;
+            margin: 10px 0 5px;
+            color: #3A2F2F;
+        }
+
+        .stat-card p {
+            font-size: 15px;
+            color: #5A4A3B;
+            margin: 0;
+        }
+
         /* -----------------------------------------
            CHART SECTION
         ------------------------------------------ */
@@ -99,7 +111,7 @@
         }
 
         canvas {
-            height: 260px !important; /* MOBILE FIX */
+            max-height: 280px !important;
         }
 
         /* -----------------------------------------
@@ -109,6 +121,7 @@
             margin-top: 40px;
             overflow-x: auto;
             padding-bottom: 25px;
+            border-radius: 12px;
         }
 
         .history-table {
@@ -143,29 +156,107 @@
 
 
         /* -----------------------------------------
-           RESPONSIVE FIXES 
+           RESPONSIVE FIXES - TABLET
         ------------------------------------------ */
-        @media(max-width: 760px){
+        @media(max-width: 950px){
 
-            h1.page-title {
-                text-align: center;
+            .page-title {
+                text-align: center !important;
+                font-size: 36px !important;
             }
 
             .stats-container {
-                flex-direction: column;
-                gap: 18px;
+                gap: 20px !important;
+            }
+
+            .stat-card {
+                min-width: 200px !important;
             }
 
             .chart-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
+                gap: 25px !important;
             }
 
             canvas {
-                height: 220px !important;
+                max-height: 250px !important;
             }
+        }
+
+        /* -----------------------------------------
+           RESPONSIVE FIXES - MOBILE
+        ------------------------------------------ */
+        @media(max-width: 600px){
 
             .dashboard-wrapper {
-                padding-bottom: 150px !important;
+                padding-bottom: 40px !important;
+            }
+
+            .page-title {
+                font-size: 28px !important;
+                text-align: center !important;
+                margin-bottom: 25px !important;
+            }
+
+            .stats-container {
+                flex-direction: column !important;
+                gap: 15px !important;
+                margin-bottom: 30px !important;
+            }
+
+            .stat-card {
+                min-width: 100% !important;
+                padding: 20px !important;
+            }
+
+            .stat-card .icon {
+                font-size: 32px !important;
+            }
+
+            .stat-card h2 {
+                font-size: 28px !important;
+            }
+
+            .stat-card p {
+                font-size: 14px !important;
+            }
+
+            .chart-container {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+                margin-top: 25px !important;
+            }
+
+            .chart-box {
+                padding: 20px !important;
+            }
+
+            .chart-box h3 {
+                font-size: 18px !important;
+                margin-bottom: 15px !important;
+            }
+
+            canvas {
+                max-height: 220px !important;
+            }
+
+            h2 {
+                font-size: 22px !important;
+                text-align: center !important;
+                margin-top: 40px !important;
+            }
+
+            .table-wrapper {
+                margin-top: 20px !important;
+                padding-bottom: 15px !important;
+                /* Add shadow to indicate scrollable */
+                box-shadow: inset -10px 0 10px -10px rgba(0,0,0,0.1);
+            }
+
+            .history-table th,
+            .history-table td {
+                padding: 10px !important;
+                font-size: 13px !important;
             }
         }
 
@@ -267,6 +358,10 @@
                     data: [safe, danger],
                     backgroundColor: ['#50c86d', '#ff6b6b']
                 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true
             }
         });
 
@@ -280,6 +375,10 @@
                     data: [safe, danger],
                     backgroundColor: ['#52d06d', '#ff7878']
                 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true
             }
         });
     </script>
