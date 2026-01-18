@@ -195,13 +195,46 @@ def logout():
 
 
 # -------------------------------------------------
-# HOME PAGE
+# HOME PAGE - WITH REAL STATS
 # -------------------------------------------------
 @app.route("/")
 def home():
     if not login_required():
         return redirect(url_for("login"))
-    return render_template("home.html")
+    
+    try:
+        conn = get_db_connection()
+        if conn:
+            c = conn.cursor()
+            
+            # Get total predictions
+            c.execute("SELECT COUNT(*) FROM history")
+            total_predictions = c.fetchone()[0]
+            
+            # Get total users
+            c.execute("SELECT COUNT(*) FROM users")
+            total_users = c.fetchone()[0]
+            
+            conn.close()
+            
+            # Average response time (static for now, could be measured)
+            avg_response_time = "< 1s"
+            
+            return render_template("home.html", 
+                                 total_predictions=total_predictions,
+                                 total_users=total_users,
+                                 avg_response_time=avg_response_time)
+        else:
+            return render_template("home.html", 
+                                 total_predictions=0,
+                                 total_users=0,
+                                 avg_response_time="< 1s")
+    except Exception as e:
+        print(f"❌ Home page error: {e}")
+        return render_template("home.html", 
+                             total_predictions=0,
+                             total_users=0,
+                             avg_response_time="< 1s")
 
 
 # -------------------------------------------------
