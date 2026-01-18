@@ -217,10 +217,18 @@
         /* -----------------------------------------
            ILLUSTRATION 
         ------------------------------------------ */
+        .predict-illustration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .predict-illustration img {
-            width: 480px;
-            max-width: 100%;
-            filter: drop-shadow(0 20px 35px rgba(0,0,0,0.2));
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            filter: drop-shadow(0 10px 25px rgba(0,0,0,0.1));
+            background: transparent;
         }
 
 
@@ -229,9 +237,9 @@
         ------------------------------------------ */
         @media (max-width: 950px) {
             .predict-container {
-                flex-direction: column-reverse !important;
+                flex-direction: column !important;
                 text-align: center !important;
-                gap: 30px !important;
+                gap: 40px !important;
             }
 
             .form-card {
@@ -242,12 +250,11 @@
 
             .predict-illustration {
                 width: 100% !important;
-                text-align: center !important;
+                order: -1 !important;
             }
 
             .predict-illustration img {
-                max-width: 350px !important;
-                width: 100% !important;
+                max-width: 400px !important;
             }
         }
 
@@ -263,12 +270,12 @@
             .page-title {
                 font-size: 28px !important;
                 text-align: center !important;
-                margin-bottom: 20px !important;
+                margin-bottom: 30px !important;
             }
 
             .predict-container {
-                gap: 20px !important;
-                margin-top: 20px !important;
+                gap: 30px !important;
+                margin-top: 10px !important;
             }
 
             .form-card {
@@ -276,8 +283,13 @@
                 max-width: 100% !important;
             }
 
+            .predict-illustration {
+                padding: 0 20px !important;
+            }
+
             .predict-illustration img {
-                max-width: 280px !important;
+                max-width: 100% !important;
+                width: 100% !important;
             }
 
             .input-group {
@@ -464,7 +476,7 @@
             </div>
 
             <!-- RIGHT IMAGE -->
-            <div class="predict-illustration scroll-reveal-right" style="flex: 1; text-align:center;">
+            <div class="predict-illustration scroll-reveal-right" style="flex: 1;">
                 <img src="{{ url_for('static', filename='img/predict.png') }}" alt="Predict Illustration">
             </div>
 
