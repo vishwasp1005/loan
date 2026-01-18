@@ -114,9 +114,9 @@
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 25px;
-            margin-top: 40px;
+            margin: 40px 0;
         }
 
         .feature-card {
@@ -176,6 +176,25 @@
 
             .features-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .feature-card {
+                padding: 20px;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .about-container {
+                padding: 30px 20px;
+            }
+
+            .about-container h1 {
+                font-size: 28px;
+            }
+
+            .vision-box {
+                padding: 20px;
             }
         }
     </style>
@@ -216,7 +235,12 @@
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure & Private</h3>
+                    <p>Your data is protected with enterprise-grade security</p>
+                </div>
+
+                <div class="feature-card">
                     <div class="feature-icon">🎤</div>
                     <h3>Voice Assistant</h3>
                     <p>Speak your details with our voice-powered interface</p>
