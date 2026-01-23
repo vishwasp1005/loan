@@ -190,7 +190,7 @@
 
 
         /* -----------------------------------------
-           SIMPLE FORM INPUTS
+           ENHANCED FORM INPUTS WITH FORMATTING
         ------------------------------------------ */
         .input-group input,
         .input-group select {
@@ -212,6 +212,60 @@
             box-shadow: 0 0 0 4px rgba(199,162,124,0.15);
             transform: translateY(-2px);
             background: white;
+        }
+
+        /* Valid input styling */
+        .input-group input:valid:not(:placeholder-shown) {
+            border-color: #4CAF50;
+            background: #f1f9f1;
+        }
+
+        /* Invalid input styling */
+        .input-group input:invalid:not(:placeholder-shown) {
+            border-color: #f44336;
+            background: #fff5f5;
+        }
+
+        /* Input hint text */
+        .input-hint {
+            display: block;
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        /* Currency symbol */
+        .input-wrapper {
+            position: relative;
+        }
+
+        .currency-symbol {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6A4C36;
+            font-weight: 600;
+            font-size: 15px;
+            pointer-events: none;
+        }
+
+        .input-wrapper input {
+            padding-left: 30px;
+        }
+
+        /* Error message */
+        .error-message {
+            display: none;
+            color: #f44336;
+            font-size: 12px;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .input-group input:invalid:not(:placeholder-shown) ~ .error-message {
+            display: block;
         }
 
 
@@ -286,6 +340,12 @@
         .btn-primary:hover {
             box-shadow: 0 15px 35px rgba(183,130,88,0.4);
             transform: translateY(-3px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
 
@@ -490,7 +550,7 @@
 
                 <div class="voice-status" id="voiceStatus"></div>
 
-                <form action="/predict" method="POST" onsubmit="showLoader()">
+                <form action="/predict" method="POST" onsubmit="return validateForm()">
 
                     <div class="form-grid">
 
@@ -502,29 +562,39 @@
                                     <span class="tooltip-text">Your current age (18-100 years)</span>
                                 </span>
                             </label>
-                            <input type="number" name="age" id="age" min="18" max="100" required>
+                            <input type="number" name="age" id="age" min="18" max="100" placeholder="e.g., 28" required>
+                            <span class="input-hint">Enter age between 18-100</span>
+                            <span class="error-message">Age must be between 18 and 100</span>
                         </div>
 
                         <div class="input-group scroll-reveal stagger-child">
                             <label>
-                                Annual Income
+                                Annual Income (₹)
                                 <span class="tooltip-icon">
                                     ?
                                     <span class="tooltip-text">Your total yearly income in rupees</span>
                                 </span>
                             </label>
-                            <input type="number" name="income" id="income" min="0" required>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">₹</span>
+                                <input type="number" name="income" id="income" min="0" placeholder="e.g., 500000" required oninput="formatCurrency(this)">
+                            </div>
+                            <span class="input-hint">Enter your yearly income (e.g., 500000 for ₹5 lakhs)</span>
                         </div>
 
                         <div class="input-group scroll-reveal stagger-child">
                             <label>
-                                Loan Amount
+                                Loan Amount (₹)
                                 <span class="tooltip-icon">
                                     ?
                                     <span class="tooltip-text">Total loan amount you're requesting</span>
                                 </span>
                             </label>
-                            <input type="number" name="loan_amount" id="loan_amount" min="0" required>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">₹</span>
+                                <input type="number" name="loan_amount" id="loan_amount" min="0" placeholder="e.g., 200000" required oninput="formatCurrency(this)">
+                            </div>
+                            <span class="input-hint">Enter loan amount needed (e.g., 200000 for ₹2 lakhs)</span>
                         </div>
 
                         <div class="input-group scroll-reveal stagger-child">
@@ -535,7 +605,9 @@
                                     <span class="tooltip-text">Your credit score (300-850). Higher is better!</span>
                                 </span>
                             </label>
-                            <input type="number" name="credit_score" id="credit_score" min="300" max="850" required>
+                            <input type="number" name="credit_score" id="credit_score" min="300" max="850" placeholder="e.g., 650" required>
+                            <span class="input-hint">300-850 (Good: 670+, Excellent: 750+)</span>
+                            <span class="error-message">Credit score must be between 300 and 850</span>
                         </div>
 
                         <div class="input-group scroll-reveal stagger-child">
@@ -546,7 +618,9 @@
                                     <span class="tooltip-text">Debt-to-Income ratio (0-1). Lower indicates better financial health</span>
                                 </span>
                             </label>
-                            <input type="number" step="0.01" name="dti_ratio" id="dti_ratio" min="0" max="1" required>
+                            <input type="number" step="0.01" name="dti_ratio" id="dti_ratio" min="0" max="1" placeholder="e.g., 0.35" required>
+                            <span class="input-hint">Enter decimal value (0.35 = 35% of income goes to debt)</span>
+                            <span class="error-message">DTI ratio must be between 0 and 1</span>
                         </div>
 
                         <div class="input-group scroll-reveal stagger-child">
@@ -558,7 +632,7 @@
                                 </span>
                             </label>
                             <select name="education" id="education" required>
-                                <option value="" disabled selected>Select education</option>
+                                <option value="" disabled selected>Select education level</option>
                                 <option>High School</option>
                                 <option>Bachelor</option>
                                 <option>Master</option>
@@ -575,7 +649,7 @@
                                 </span>
                             </label>
                             <select name="employment" id="employment" required>
-                                <option value="" disabled selected>Select employment</option>
+                                <option value="" disabled selected>Select employment status</option>
                                 <option>Full-time</option>
                                 <option>Part-time</option>
                                 <option>Self-employed</option>
@@ -585,7 +659,7 @@
 
                     </div>
 
-                    <button type="submit" class="btn-primary full-btn scroll-reveal" style="margin-top: 18px;">
+                    <button type="submit" class="btn-primary full-btn scroll-reveal" id="submitBtn" style="margin-top: 18px;">
                         Predict →
                     </button>
 
@@ -599,6 +673,67 @@
 
         </div>
     </div>
+
+<!-- Form Validation Script -->
+<script>
+function validateForm() {
+    const age = document.getElementById('age').value;
+    const income = document.getElementById('income').value;
+    const loanAmount = document.getElementById('loan_amount').value;
+    const creditScore = document.getElementById('credit_score').value;
+    const dtiRatio = document.getElementById('dti_ratio').value;
+    const education = document.getElementById('education').value;
+    const employment = document.getElementById('employment').value;
+
+    // Validate all fields
+    if (!age || !income || !loanAmount || !creditScore || !dtiRatio || !education || !employment) {
+        alert('Please fill in all required fields');
+        return false;
+    }
+
+    // Validate ranges
+    if (age < 18 || age > 100) {
+        alert('Age must be between 18 and 100');
+        return false;
+    }
+
+    if (creditScore < 300 || creditScore > 850) {
+        alert('Credit score must be between 300 and 850');
+        return false;
+    }
+
+    if (dtiRatio < 0 || dtiRatio > 1) {
+        alert('DTI ratio must be between 0 and 1');
+        return false;
+    }
+
+    if (income <= 0) {
+        alert('Annual income must be greater than 0');
+        return false;
+    }
+
+    if (loanAmount <= 0) {
+        alert('Loan amount must be greater than 0');
+        return false;
+    }
+
+    showLoader();
+    return true;
+}
+
+function formatCurrency(input) {
+    // Remove any non-numeric characters except decimal point
+    let value = input.value.replace(/[^\d.]/g, '');
+    
+    // Ensure only one decimal point
+    const parts = value.split('.');
+    if (parts.length > 2) {
+        value = parts[0] + '.' + parts.slice(1).join('');
+    }
+    
+    input.value = value;
+}
+</script>
 
 <!-- Voice Assistant Script -->
 <script>
@@ -671,34 +806,27 @@ function initVoiceRecognition() {
 }
 
 function parseIndianNumber(transcript) {
-    // Handle lakhs, thousands, crores
     let value = 0;
-    
-    // Extract the number part
     const words = transcript.replace(/[,\s]+/g, ' ').toLowerCase();
     
-    // Handle "lakh" or "lakhs"
     if (words.includes('lakh')) {
         const match = words.match(/(\d+\.?\d*)\s*lakh/);
         if (match) {
             value = parseFloat(match[1]) * 100000;
         }
     }
-    // Handle "thousand"
     else if (words.includes('thousand')) {
         const match = words.match(/(\d+\.?\d*)\s*thousand/);
         if (match) {
             value = parseFloat(match[1]) * 1000;
         }
     }
-    // Handle "crore" or "crores"
     else if (words.includes('crore')) {
         const match = words.match(/(\d+\.?\d*)\s*crore/);
         if (match) {
             value = parseFloat(match[1]) * 10000000;
         }
     }
-    // Handle regular numbers
     else {
         const numbers = words.match(/\d+\.?\d*/g);
         if (numbers && numbers.length > 0) {
@@ -736,7 +864,6 @@ function processVoiceInput(transcript) {
         }
     }
     else if (field.id === 'income' || field.id === 'loan_amount') {
-        // Parse Indian number format
         const value = parseIndianNumber(transcript);
         if (value > 0) {
             input.value = Math.round(value);
@@ -747,17 +874,12 @@ function processVoiceInput(transcript) {
         }
     }
     else if (field.id === 'dti_ratio') {
-        // Handle decimal values like "0.3" or "point 3" or "zero point three"
         let value = 0;
-        
-        // Replace "point" with "."
         const normalized = transcript.replace(/point/gi, '.');
-        
-        // Extract decimal number
         const match = normalized.match(/(\d*\.?\d+)/);
         if (match) {
             value = parseFloat(match[1]);
-            if (value > 1) value = value / 100; // If they say "30" instead of "0.3"
+            if (value > 1) value = value / 100;
             input.value = value.toFixed(2);
         } else {
             speak('I could not find a decimal value. Please say something like point 3 or 0.3');
@@ -782,93 +904,3 @@ function processVoiceInput(transcript) {
             return;
         }
     }
-    else {
-        // For age and other numeric fields
-        const numbers = transcript.match(/\d+/g);
-        if (numbers && numbers.length > 0) {
-            input.value = numbers[0];
-        } else {
-            speak('I could not find a number. Please try again');
-            setTimeout(() => askQuestion(), 1500);
-            return;
-        }
-    }
-    
-    // Move to next field
-    currentField++;
-    
-    if (currentField < fields.length) {
-        setTimeout(() => askQuestion(), 800);
-    } else {
-        speak('All information collected! You can now submit the form.');
-        stopVoiceAssistant();
-        updateStatus('✅ All fields filled! Ready to predict.');
-    }
-}
-
-function askQuestion() {
-    if (currentField < fields.length) {
-        const question = fields[currentField].question;
-        updateStatus(`🎤 ${question}`, true);
-        speak(question);
-        
-        setTimeout(() => {
-            if (isListening) {
-                recognition.start();
-            }
-        }, 2000);
-    }
-}
-
-function toggleVoiceAssistant() {
-    if (!isListening) {
-        startVoiceAssistant();
-    } else {
-        stopVoiceAssistant();
-    }
-}
-
-function startVoiceAssistant() {
-    if (!initVoiceRecognition()) return;
-    
-    isListening = true;
-    currentField = 0;
-    
-    const btn = document.getElementById('voiceBtn');
-    btn.classList.add('listening');
-    btn.innerHTML = '⏹️ Stop Listening';
-    
-    speak('Voice assistant activated. I will help you fill the form.');
-    setTimeout(() => askQuestion(), 2000);
-}
-
-function stopVoiceAssistant() {
-    isListening = false;
-    if (recognition) {
-        recognition.stop();
-    }
-    
-    const btn = document.getElementById('voiceBtn');
-    btn.classList.remove('listening');
-    btn.innerHTML = '🎤 Voice Assistant';
-    
-    const status = document.getElementById('voiceStatus');
-    status.style.display = 'none';
-    
-    window.speechSynthesis.cancel();
-}
-</script>
-
-<script>
-function showLoader() {
-    document.getElementById("loadingScreen").style.display = "flex";
-}
-</script>
-
-{% include 'footer.html' %}
-
-<!-- Professional Animations Script -->
-<script src="{{ url_for('static', filename='js/animations.js') }}"></script>
-
-</body>
-</html>
