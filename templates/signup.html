@@ -36,6 +36,12 @@
             justify-content: center;
             align-items: center;
             width: 100%;
+            padding-bottom: 40px;
+        }
+
+        /* Footer spacing */
+        footer {
+            margin-top: auto;
         }
 
         @keyframes bgShift {
@@ -230,8 +236,16 @@
             transform: translateY(-2px);
         }
 
-        .auth-card input:focus + .input-icon {
+        .auth-card input:focus ~ .input-icon {
             color: #C7A27C;
+        }
+
+        .input-wrapper .input-icon {
+            z-index: 1;
+        }
+
+        .input-wrapper .password-toggle {
+            z-index: 2;
         }
 
         /* Password toggle */
@@ -444,6 +458,10 @@
                 padding: 15px;
             }
 
+            .main-content {
+                padding-bottom: 30px;
+            }
+
             .logo-section h1 {
                 font-size: 32px;
             }
@@ -460,6 +478,10 @@
         @media(max-width: 480px) {
             body {
                 padding: 10px;
+            }
+
+            .main-content {
+                padding-bottom: 20px;
             }
 
             .logo-section {
@@ -588,8 +610,8 @@
                     <label>Password</label>
                     <div class="input-wrapper">
                         <span class="input-icon">🔒</span>
-                        <input type="password" name="password" id="password" placeholder="Create a strong password" required autocomplete="new-password" minlength="6" oninput="checkPasswordStrength()">
-                        <span class="password-toggle" onclick="togglePassword()">👁️</span>
+                        <input type="password" name="password" id="signupPassword" placeholder="Create a strong password" required autocomplete="new-password" minlength="6" oninput="checkPasswordStrength()">
+                        <span class="password-toggle" onclick="toggleSignupPassword()">👁️</span>
                     </div>
                     <div class="password-strength" id="passwordStrength">
                         <div class="password-strength-bar" id="strengthBar"></div>
@@ -615,8 +637,8 @@
 {% include 'footer.html' %}
 
 <script>
-function togglePassword() {
-    const passwordInput = document.getElementById('password');
+function toggleSignupPassword() {
+    const passwordInput = document.getElementById('signupPassword');
     const toggleIcon = document.querySelector('.password-toggle');
     
     if (passwordInput.type === 'password') {
@@ -629,7 +651,7 @@ function togglePassword() {
 }
 
 function checkPasswordStrength() {
-    const password = document.getElementById('password').value;
+    const password = document.getElementById('signupPassword').value;
     const strengthBar = document.getElementById('strengthBar');
     const strengthContainer = document.getElementById('passwordStrength');
     const hint = document.getElementById('passwordHint');
