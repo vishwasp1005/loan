@@ -19,8 +19,7 @@
         body {
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             font-family: "Poppins", sans-serif;
             background: linear-gradient(135deg, #f8f4ef, #f3ebe3, #f7f2e8);
             background-size: 400% 400%;
@@ -28,6 +27,15 @@
             padding: 20px;
             position: relative;
             overflow-x: hidden;
+        }
+
+        /* Main content wrapper */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
         }
 
         @keyframes bgShift {
@@ -550,54 +558,56 @@
 
 <body>
 
-<div class="signup-container">
-    <!-- Logo Section -->
-    <div class="logo-section">
-        <h1>🛡️ LoanShield</h1>
-        <p>AI-Powered Risk Analysis Platform</p>
-    </div>
-
-    <!-- Signup Card -->
-    <div class="auth-card">
-        <h2>Create Account</h2>
-        <p class="subtitle">Join us and start analyzing loan risks</p>
-
-        {% if error %}
-            <p class="error">{{ error }}</p>
-        {% endif %}
-
-        <form method="POST">
-            <div class="input-group">
-                <label>Username</label>
-                <div class="input-wrapper">
-                    <span class="input-icon">👤</span>
-                    <input type="text" name="username" id="username" placeholder="Choose a username" required autocomplete="username" minlength="3">
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label>Password</label>
-                <div class="input-wrapper">
-                    <span class="input-icon">🔒</span>
-                    <input type="password" name="password" id="password" placeholder="Create a strong password" required autocomplete="new-password" minlength="6" oninput="checkPasswordStrength()">
-                    <span class="password-toggle" onclick="togglePassword()">👁️</span>
-                </div>
-                <div class="password-strength" id="passwordStrength">
-                    <div class="password-strength-bar" id="strengthBar"></div>
-                </div>
-                <p class="password-hint" id="passwordHint">Use at least 6 characters with letters & numbers</p>
-            </div>
-
-            <button type="submit">Create Account</button>
-        </form>
-
-        <div class="divider">
-            <span>or</span>
+<div class="main-content">
+    <div class="signup-container">
+        <!-- Logo Section -->
+        <div class="logo-section">
+            <h1>🛡️ LoanShield</h1>
+            <p>AI-Powered Risk Analysis Platform</p>
         </div>
 
-        <p class="login-link">
-            Already have an account? <a href="/login">Login here</a>
-        </p>
+        <!-- Signup Card -->
+        <div class="auth-card">
+            <h2>Create Account</h2>
+            <p class="subtitle">Join us and start analyzing loan risks</p>
+
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+
+            <form method="POST">
+                <div class="input-group">
+                    <label>Username</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" name="username" id="username" placeholder="Choose a username" required autocomplete="username" minlength="3">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" name="password" id="password" placeholder="Create a strong password" required autocomplete="new-password" minlength="6" oninput="checkPasswordStrength()">
+                        <span class="password-toggle" onclick="togglePassword()">👁️</span>
+                    </div>
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="password-strength-bar" id="strengthBar"></div>
+                    </div>
+                    <p class="password-hint" id="passwordHint">Use at least 6 characters with letters & numbers</p>
+                </div>
+
+                <button type="submit">Create Account</button>
+            </form>
+
+            <div class="divider">
+                <span>or</span>
+            </div>
+
+            <p class="login-link">
+                Already have an account? <a href="/login">Login here</a>
+            </p>
+        </div>
     </div>
 </div>
 
