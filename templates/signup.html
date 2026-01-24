@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - LoanShield</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=11">
 
     <style>
         * {
@@ -78,9 +77,116 @@
             padding-bottom: 40px;
         }
 
-        /* Footer spacing */
+        /* Footer styling */
         footer {
             margin-top: auto;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 30px 20px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-left {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-left h3 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #C7A27C, #8B6F47);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .footer-left p {
+            color: #6A4C36;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .footer-left .copyright {
+            color: #9B8A7A;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .footer-center {
+            flex: 1;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .footer-center h4 {
+            color: #4f433c;
+            font-size: 16px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .instagram {
+            background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+        }
+
+        .linkedin {
+            background: #0077b5;
+            color: white;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-right {
+            flex: 1;
+            text-align: right;
+            min-width: 200px;
+        }
+
+        .footer-right p {
+            color: #6A4C36;
+            font-size: 14px;
+        }
+
+        .footer-right .developer {
+            color: #C7A27C;
+            font-weight: 700;
+            font-size: 18px;
         }
 
         /* --------------------------------------
@@ -215,7 +321,7 @@
 
         .auth-card input {
             width: 100%;
-            padding: 14px 16px 14px 46px;
+            padding: 14px 50px 14px 46px;
             border: 2px solid #E8DDD0;
             background: #FAFAFA;
             border-radius: 12px;
@@ -237,11 +343,11 @@
             transform: translateY(-2px);
         }
 
-        .auth-card input:focus ~ .input-icon {
+        .input-wrapper:focus-within .input-icon {
             color: #C7A27C;
         }
 
-        /* Password toggle */
+        /* Password toggle - FIXED */
         .password-toggle {
             position: absolute;
             right: 16px;
@@ -252,7 +358,10 @@
             font-size: 18px;
             transition: color 0.3s;
             user-select: none;
-            z-index: 2;
+            z-index: 10;
+            background: transparent;
+            border: none;
+            padding: 5px;
         }
 
         .password-toggle:hover {
@@ -308,7 +417,7 @@
         /* --------------------------------------
             BUTTON
         ---------------------------------------*/
-        .auth-card button {
+        .auth-card button[type="submit"] {
             margin-top: 10px;
             width: 100%;
             padding: 15px;
@@ -327,7 +436,7 @@
             overflow: hidden;
         }
 
-        .auth-card button::before {
+        .auth-card button[type="submit"]::before {
             content: "";
             position: absolute;
             top: 0;
@@ -338,16 +447,16 @@
             transition: left 0.5s;
         }
 
-        .auth-card button:hover::before {
+        .auth-card button[type="submit"]:hover::before {
             left: 100%;
         }
 
-        .auth-card button:hover {
+        .auth-card button[type="submit"]:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 35px rgba(199, 162, 124, 0.4);
         }
 
-        .auth-card button:active {
+        .auth-card button[type="submit"]:active {
             transform: translateY(-1px);
         }
 
@@ -447,6 +556,22 @@
         /* --------------------------------------
            MOBILE OPTIMIZATIONS
         ---------------------------------------*/
+        @media(max-width: 992px) {
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-left,
+            .footer-right {
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
         @media(max-width: 768px) {
             body {
                 padding: 15px;
@@ -466,6 +591,19 @@
 
             .auth-card h2 {
                 font-size: 26px;
+            }
+
+            footer {
+                padding: 25px 15px;
+            }
+
+            .footer-left h3 {
+                font-size: 20px;
+            }
+
+            .social-links a {
+                font-size: 13px;
+                padding: 7px 14px;
             }
         }
 
@@ -514,7 +652,7 @@
             }
 
             .auth-card input {
-                padding: 13px 14px 13px 42px;
+                padding: 13px 45px 13px 42px;
                 font-size: 14px;
                 border-radius: 10px;
             }
@@ -529,7 +667,7 @@
                 font-size: 16px;
             }
 
-            .auth-card button {
+            .auth-card button[type="submit"] {
                 padding: 13px;
                 font-size: 15px;
                 border-radius: 10px;
@@ -549,6 +687,28 @@
             .divider {
                 margin: 20px 0;
             }
+
+            footer {
+                padding: 20px 10px;
+            }
+
+            .footer-left h3 {
+                font-size: 18px;
+            }
+
+            .footer-left p,
+            .footer-right p {
+                font-size: 12px;
+            }
+
+            .social-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .social-links a {
+                font-size: 12px;
+            }
         }
 
         @media(max-width: 360px) {
@@ -565,7 +725,7 @@
             }
 
             .auth-card input {
-                padding: 12px 14px 12px 40px;
+                padding: 12px 40px 12px 40px;
             }
         }
 
@@ -587,9 +747,10 @@
             <h2>Create Account</h2>
             <p class="subtitle">Join us and start analyzing loan risks</p>
 
-            {% if error %}
+            <!-- Error message placeholder -->
+            <!-- {% if error %}
                 <p class="error">{{ error }}</p>
-            {% endif %}
+            {% endif %} -->
 
             <form method="POST">
                 <div class="input-group">
@@ -604,8 +765,8 @@
                     <label>Password</label>
                     <div class="input-wrapper">
                         <span class="input-icon">🔒</span>
-                        <input type="password" name="password" id="signupPassword" placeholder="Create a strong password" required autocomplete="new-password" minlength="6" oninput="checkPasswordStrength()">
-                        <span class="password-toggle" onclick="toggleSignupPassword()">👁️</span>
+                        <input type="password" name="password" id="signupPassword" placeholder="Create a strong password" required autocomplete="new-password" minlength="6">
+                        <button type="button" class="password-toggle" id="toggleBtn">👁️</button>
                     </div>
                     <div class="password-strength" id="passwordStrength">
                         <div class="password-strength-bar" id="strengthBar"></div>
@@ -628,24 +789,54 @@
 </div>
 
 <!-- Footer -->
-{% include 'footer.html' %}
+<footer>
+    <div class="footer-content">
+        <div class="footer-left">
+            <h3>LoanShield</h3>
+            <p>Smart AI-powered loan risk prediction platform.</p>
+            <p class="copyright">© 2026 LoanShield. All rights reserved.</p>
+        </div>
+        
+        <div class="footer-center">
+            <h4>Connect With Us</h4>
+            <div class="social-links">
+                <a href="#" class="instagram">
+                    <span>📷</span> Instagram
+                </a>
+                <a href="#" class="linkedin">
+                    <span>💼</span> LinkedIn
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer-right">
+            <p>Designed & Developed by</p>
+            <p class="developer">OG</p>
+        </div>
+    </div>
+</footer>
 
 <script>
-function toggleSignupPassword() {
-    const passwordInput = document.getElementById('signupPassword');
-    const toggleIcon = document.querySelector('.password-toggle');
+// Password toggle functionality - FIXED
+const toggleBtn = document.getElementById('toggleBtn');
+const passwordInput = document.getElementById('signupPassword');
+
+toggleBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
     
     if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
-        toggleIcon.textContent = '🙈';
+        toggleBtn.textContent = '🙈';
     } else {
         passwordInput.type = 'password';
-        toggleIcon.textContent = '👁️';
+        toggleBtn.textContent = '👁️';
     }
-}
+});
 
-function checkPasswordStrength() {
-    const password = document.getElementById('signupPassword').value;
+// Password strength checker
+passwordInput.addEventListener('input', function() {
+    const password = this.value;
     const strengthBar = document.getElementById('strengthBar');
     const strengthContainer = document.getElementById('passwordStrength');
     const hint = document.getElementById('passwordHint');
@@ -690,7 +881,7 @@ function checkPasswordStrength() {
         hint.textContent = '✓ Strong password! You're all set';
         hint.style.color = '#66BB6A';
     }
-}
+});
 </script>
 
 </body>
